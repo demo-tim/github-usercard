@@ -134,11 +134,17 @@ const createGithub = (avatar_url , name , login, location, html_url, followers, 
 
   const locations = document.createElement("p")
   cardInfo.appendChild(locations);
-  locations.textContent = `Location: ${location}: || Not Available`;
+  locations.textContent = `Location: ${location || "Not Available"}`;
+  
 
   const profile = document.createElement("p");
   cardInfo.appendChild(profile);
-  profile.textContent = `Profile: ${html_url}`
+  profile.textContent = `Profile:`
+
+  const profileA = document.createElement("a");// need href too
+  profileA.href = html_url;
+  profile.appendChild(profileA);
+  profileA.textContent = ` ${html_url}`
 
   const follower = document.createElement("p");
   cardInfo.appendChild(follower);
@@ -150,7 +156,7 @@ const createGithub = (avatar_url , name , login, location, html_url, followers, 
 
   const bioUser = document.createElement("p");
   cardInfo.appendChild(bioUser);
-  bioUser.textContent = `Bio: ${bio} `;
+  bioUser.textContent = `Bio: ${bio || "Not Available"} `;
   
   return card;
   }
@@ -168,7 +174,7 @@ const createGithub = (avatar_url , name , login, location, html_url, followers, 
       data.login, data.location, data.html_url, 
       data.followers, 
       data.following, 
-      data.bio))
+      data.bio))//add all the fields
     
   })
   .catch((error) => 
