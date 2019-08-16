@@ -34,10 +34,51 @@
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
-// axios.get()
-//   .then(response)
-//   .catch(error)
-const followersArray = [];
+//  axios.get("https://api.github.com/users/timmitzen/followers")
+//    .then((response) => {
+     
+//     const data1 = response.data1;
+//     console.log("test",data1);
+
+//     // document.querySelector(".cards")
+//     // .appendChild(createGithub(
+//     //   data.avatar_url , 
+//     //   data.name , 
+//     //   data.login, data.location, data.html_url, 
+//     //   data.followers, 
+//     //   data.following, 
+//     //   data.bio))
+
+
+//    })
+
+//   .catch((error) => {
+
+//   })
+   
+  const followersArray = [
+    "torvalds",
+    "gaearon",
+    "yyx990803",
+    "dustinmyers",
+    "bigknell"
+];
+
+followersArray.map(follower => {
+  axios.get(`https://api.github.com/users/${follower}`)
+        .then(res => {
+          const data1 = res.data;
+          document.querySelector(".cards").appendChild(createGithub(
+          data1.avatar_url , 
+          data1.name , 
+          data1.login, data1.location, data1.html_url, 
+          data1.followers, 
+          data1.following, 
+          data1.bio))})
+        
+        .catch(err => console.log(err))
+        
+})
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -69,7 +110,7 @@ const followersArray = [];
 
 const container = document.querySelector(".cards");
 
-const createGithub = (avatar_url , name , login, location, html_url, follower, following, bio) => {
+const createGithub = (avatar_url , name , login, location, html_url, followers, following, bio) => {
   const card = document.createElement("div");
   card.classList.add("card")
   
@@ -99,9 +140,9 @@ const createGithub = (avatar_url , name , login, location, html_url, follower, f
   cardInfo.appendChild(profile);
   profile.textContent = `Profile: ${html_url}`
 
-  const followers = document.createElement("p");
-  cardInfo.appendChild(followers);
-  followers.textContent = `Follower: ${follower}`;
+  const follower = document.createElement("p");
+  cardInfo.appendChild(follower);
+  follower.textContent = `Followers: ${followers}`;
 
   const followings = document.createElement("p");
   cardInfo.appendChild(followings);
@@ -124,8 +165,8 @@ const createGithub = (avatar_url , name , login, location, html_url, follower, f
     .appendChild(createGithub(
       data.avatar_url , 
       data.name , 
-      data.login, data.location, data.url, 
-      data.follower, 
+      data.login, data.location, data.html_url, 
+      data.followers, 
       data.following, 
       data.bio))
     
